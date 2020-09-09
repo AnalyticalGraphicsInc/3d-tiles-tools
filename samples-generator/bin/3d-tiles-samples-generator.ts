@@ -140,6 +140,7 @@ var promises = [
     createBatchedColorsTranslucent(),
     createBatchedColorsMix(),
     createBatchedTextured(),
+    createBatchedTexturedCompressed(),
     createBatchedWithBoundingSphere(),
     createBatchedWithTransformBox(),
     createBatchedWithTransformSphere(),
@@ -339,6 +340,15 @@ function createBatchedTextured() {
         buildingOptions: buildingOptions
     };
     return saveBatchedTileset('BatchedTextured', tileOptions);
+}
+
+function createBatchedTexturedCompressed() {
+    var buildingOptions = clone(buildingTemplate);
+    buildingOptions.baseColorType = BaseColorType.CompressedTexture;
+    var tileOptions = {
+        buildingOptions: buildingOptions
+    };
+    return saveBatchedTileset('BatchedTexturedCompressed', tileOptions);
 }
 
 function createBatchedColors() {

@@ -1,7 +1,8 @@
 export enum BaseColorType {
     White,
     Color,
-    Texture
+    Texture,
+    CompressedTexture
 }
 
 export enum TranslucencyType {

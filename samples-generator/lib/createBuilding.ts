@@ -23,6 +23,7 @@ const scratchScale = new Cartesian3();
 const whiteOpaqueMaterial = new Material([1.0, 1.0, 1.0, 1.0]);
 const whiteTranslucentMaterial = new Material([1.0, 1.0, 1.0, 0.5]);
 const texturedMaterial = new TexturedMaterial('data/wood_red.jpg');
+const texturedCompressedMaterial = new TexturedMaterial('data/wood_red.ktx2');
 const redMaterial = new Material([1.0, 0.0, 0.0, 1.0]);
 
 /**
@@ -236,5 +237,7 @@ function getMaterial(
         }
     } else if (baseColorType === BaseColorType.Texture) {
         return texturedMaterial;
+    } else if (baseColorType === BaseColorType.CompressedTexture) {
+        return texturedCompressedMaterial;
     }
 }

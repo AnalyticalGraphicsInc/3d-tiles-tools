@@ -24,7 +24,7 @@ module.exports = {
 function normalizePath(path) {
     // on Windows, the paths get backslashes (due to path.join)
     // normalize that to be able to deal with internal zip paths
-    let res = path.replace(/\.\//, "");
+    const res = path.replace(/\.\//, '');
     return res.replace(/\\/g, '/');
 }
 

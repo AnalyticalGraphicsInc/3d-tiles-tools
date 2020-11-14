@@ -142,7 +142,7 @@ describe('validateTileset', () => {
             filePath: 'filepath',
             directory: '.'
         });
-        expect(message).toBe(`Tileset version must be 1.0. Tileset version provided: ${tileset.asset.version}`);
+        expect(message).toBe(`Tileset version must be 1.0 or 2.0.0-alpha.0. Tileset version provided: ${tileset.asset.version}`);
     });
 
     it('returns error message when a content\'s box type boundingVolume is not within it\'s tile\'s box type boundingVolume [invalid aligned bounding boxes]', async () => {

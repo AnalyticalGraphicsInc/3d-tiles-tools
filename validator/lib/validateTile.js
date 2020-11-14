@@ -16,7 +16,7 @@ module.exports = validateTile;
  * @param {Buffer} options.content A buffer containing the contents of the tile.
  * @param {String} options.filePath The tile's file path.
  * @param {String} options.directory The tile's directory.
- * @param {Object} options.reader The resource reader. 
+ * @param {Object} options.reader The resource reader.
  * @param {Boolean} [options.writeReports=false] Write glTF error report next to the glTF file in question.
  * @returns {Promise} A promise that resolves when the validation completes. If the validation fails, the promise will resolve to an error message.
  */

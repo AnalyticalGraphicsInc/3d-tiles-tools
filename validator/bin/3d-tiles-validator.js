@@ -49,11 +49,11 @@ const argv = yargs
     }).parse(args);
 
 async function validate(argv) {
-    let filePath = argv.input;
+    const filePath = argv.input;
     const writeReports = argv.writeReports;
     let message;
 
-    let reader = {
+    const reader = {
         readBinary: readTile,
         readJson: readTileset
     };

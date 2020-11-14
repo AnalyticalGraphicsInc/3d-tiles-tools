@@ -5,9 +5,8 @@ const Promise = require('bluebird');
 
 const isDataUri = require('./isDataUri');
 const isTile = require('./isTile');
-const readTile = require('./readTile');
-const readTileset = require('./readTileset');
 const utility = require('./utility');
+const validateExtensions = require('./validateExtensions');
 const validateTile = require('./validateTile');
 
 const Cartesian3 = Cesium.Cartesian3;
@@ -28,7 +27,7 @@ module.exports = validateTileset;
  * Check if a tileset is valid, including the tileset JSON and all tiles referenced within.
  *
  * @param {Object} options An object with the following properties:
- * @param {Buffer} options.tileset The tileset JSON.
+ * @param {Object} options.tileset The tileset JSON.
  * @param {String} options.filePath The tileset JSON file path.
  * @param {Boolean} options.onlyValidateTilesets Only check tilesets, skip any other tile type.
  * @param {String} options.directory The directory containing the tileset JSON that all paths in the tileset JSON are relative to.
@@ -36,7 +35,11 @@ module.exports = validateTileset;
  */
 async function validateTileset(options) {
     const tileset = options.tileset;
-    const message = validateTopLevel(tileset);
+    let message = validateTopLevel(tileset);
+    if (defined(message)) {
+        return message;
+    }
+    message = validateExtensions(options);
     if (defined(message)) {
         return message;
     }
@@ -61,7 +64,7 @@ function validateTopLevel(tileset) {
         return 'Tileset must declare a version in its asset property';
     }
 
-    if (tileset.asset.version !== "1.0" && tileset.asset.version !== "2.0.0-alpha.0") {
+    if (tileset.asset.version !== '1.0' && tileset.asset.version !== '2.0.0-alpha.0') {
         return `Tileset version must be 1.0 or 2.0.0-alpha.0. Tileset version provided: ${tileset.asset.version}`;
     }
 }
@@ -98,10 +101,8 @@ async function validateTileHierarchy(root, options) {
         if (defined(content) && defined(content.uri)) {
             if (isDataUri(content.uri)) {
                 contentPaths.push(content.uri);
-            } else {
-                if (!options.onlyValidateTilesets || content.uri.endsWith(".json")) {
-                    contentPaths.push(path.join(directory, content.uri));
-                }
+            } else if (!options.onlyValidateTilesets || content.uri.endsWith('.json')) {
+                contentPaths.push(path.join(directory, content.uri));
             }
         }
 
@@ -173,7 +174,7 @@ async function validateContent(contentPath, directory, options) {
                 directory: directory,
                 writeReports: options.writeReports
             });
-        } else if (isTile(contentPath, options.version)) {
+        } else if (isTile(contentPath, options)) {
             if (options.onlyValidateTilesets) {
                 return;
             }

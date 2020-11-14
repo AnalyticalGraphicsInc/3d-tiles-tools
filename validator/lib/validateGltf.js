@@ -26,11 +26,11 @@ async function validateGltf(options) {
     const directory = options.directory;
     const reader = options.reader;
     const writeReports = defaultValue(options.writeReports, false);
-    
-    let gltf = bufferToJson(buffer);
-    var version = gltf.asset.version;
 
-    if (version !== "2.0") {
+    const gltf = bufferToJson(buffer);
+    const version = gltf.asset.version;
+
+    if (version !== '2.0') {
         return 'Invalid Gltf version: ' + version + '. Version must be 2.0';
     }
 

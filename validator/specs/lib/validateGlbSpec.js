@@ -7,7 +7,7 @@ describe('validate Glb', () => {
         const glb = specUtility.createGlb();
         glb.writeUInt32LE(1, 4);  // version
         const message = await validateGlb({
-            glb: glb,
+            content: glb,
             filePath: 'filepath'
         });
         expect(message).toBe('Invalid Glb version: 1. Version must be 2.');

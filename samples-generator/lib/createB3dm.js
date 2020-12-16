@@ -21,9 +21,9 @@ module.exports = createB3dm;
  * @returns {Buffer} The generated b3dm tile buffer.
  */
 function createB3dm(options) {
-    var glb = options.glb;
+    var glb = getBufferPadded(options.glb);
     var defaultFeatureTable = {
-        BATCH_LENGTH : 0
+        BATCH_LENGTH: 0
     };
     var featureTableJson = defaultValue(options.featureTableJson, defaultFeatureTable);
     var batchLength = featureTableJson.BATCH_LENGTH;

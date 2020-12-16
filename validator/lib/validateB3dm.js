@@ -63,6 +63,10 @@ async function validateB3dm(options) {
         return `byteLength of ${byteLength} does not equal the tile\'s actual byte length of ${content.length}.`;
     }
 
+    if (byteLength % 8 > 0) {
+        return `byteLength of ${byteLength} must be aligned to an 8-byte boundary.`;
+    }
+
     // Legacy header #1: [batchLength] [batchTableByteLength]
     // Legacy header #2: [batchTableJsonByteLength] [batchTableBinaryByteLength] [batchLength]
     // Current header: [featureTableJsonByteLength] [featureTableBinaryByteLength] [batchTableJsonByteLength] [batchTableBinaryByteLength]
@@ -83,15 +87,19 @@ async function validateB3dm(options) {
     let glbByteLength = Math.max(byteLength - glbByteOffset, 0);
 
     if (featureTableBinaryByteOffset % 8 > 0) {
-        return 'Feature table binary must be aligned to an 8-byte boundary.';
+        return 'Feature table Json must end on an 8-byte boundary.';
+    }
+
+    if (batchTableJsonByteOffset % 8 > 0) {
+        return 'Feature table binary must end on an 8-byte boundary.';
     }
 
     if (batchTableBinaryByteOffset % 8 > 0) {
-        return 'Batch table binary must be aligned to an 8-byte boundary.';
+        return 'Batch table Json must end on an 8-byte boundary.';
     }
 
     if (glbByteOffset % 8 > 0) {
-        return 'Glb must be aligned to an 8-byte boundary.';
+        return 'Batch table binary must end on an 8-byte boundary.';
     }
 
     if (headerByteLength + featureTableJsonByteLength + featureTableBinaryByteLength + batchTableJsonByteLength + batchTableBinaryByteLength + glbByteLength > byteLength) {
